@@ -7,13 +7,25 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "patch-package"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.12",
+    "@react-navigation/native-stack": "^6.8.0",
+    "axios": "^0.27.2",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react": "17.0.1",
-    "react-native": "^0.69.4",
-    "react-native-svg": "^13.0.0",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native": "^0.64.0",
+    "react-native-fab": "^1.0.18",
+    "react-native-interactable": "^2.0.1",
+    "react-native-material-ripple": "^0.9.1",
+    "react-native-responsive-grid-system": "^1.0.4",
+    "react-native-safe-area-context": "^3.2.0",
+    "react-native-screens": "^3.16.0",
+    "react-native-svg": "^12.1.1",
+    "react-native-vector-icons": "^8.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

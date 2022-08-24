@@ -12,6 +12,8 @@ target 'Donny_Anggara_Putra_Apptest' do
     :hermes_enabled => false
   )
 
+  pod 'Interactable', :path => '../node_modules/react-native-interactable'
+
   target 'Donny_Anggara_Putra_ApptestTests' do
     inherit! :complete
     # Pods for testing
