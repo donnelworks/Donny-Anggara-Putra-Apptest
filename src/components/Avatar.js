@@ -39,7 +39,7 @@ const Avatar = ({
   };
 
   const textStyle = {
-    marginTop: 6,
+    marginTop: 5,
     fontSize: size / 2.5,
     fontFamily: 'Poppins-SemiBold',
     color: color,

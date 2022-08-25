@@ -19,7 +19,7 @@ const Button = ({
 }) => {
   const btnStyle = {
     backgroundColor: bgColor ? bgColor : '',
-    minHeight: size == 'sm' ? 35 : size == 'lg' ? 65 : 60,
+    minHeight: size == 'sm' ? 35 : size == 'lg' ? 60 : 50,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

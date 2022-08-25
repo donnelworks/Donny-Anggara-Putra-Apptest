@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerCol: {
-    height: 100,
+    height: 80,
     justifyContent: 'center',
   },
   textTitle: {
     fontFamily: 'Poppins-Bold',
-    fontSize: 36,
+    fontSize: 28,
     color: Color.dark,
   },
 });

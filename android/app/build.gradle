@@ -13,7 +13,7 @@ import com.android.build.OutputFile
  * `apply from: "../../node_modules/react-native/react.gradle"` line.
  *
  * project.ext.react = [
- *   // the name of the generated asset file containing your JS bundle
+ *   // the name of the generated asse      t file containing your JS bundle
  *   bundleAssetName: "index.android.bundle",
  *
  *   // the entry file for bundle generation. If none specified and
@@ -189,6 +189,8 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    implementation project(path: ":react-native-interactable")
+    
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

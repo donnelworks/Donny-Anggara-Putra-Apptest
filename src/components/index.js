@@ -7,6 +7,9 @@ import Button from './Button';
 import ContactLists from './ContactLists';
 import FloatingButton from './FloatingButton';
 import Gap from './Gap';
+import ModalConfirm from './ModalConfirm';
+import LoadingScreen from './LoadingScreen';
+import SwipeList from './SwipeList';
 
 export {
   Container,
@@ -18,4 +21,7 @@ export {
   ContactLists,
   FloatingButton,
   Gap,
+  ModalConfirm,
+  LoadingScreen,
+  SwipeList,
 };
