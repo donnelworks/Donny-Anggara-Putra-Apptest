@@ -1,10 +1,23 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Animated, StyleSheet, Text, View} from 'react-native';
+import React, {useRef, useState} from 'react';
 import Ripple from 'react-native-material-ripple';
 import {Color} from '../utils';
 import {Add} from '../assets/imgs';
 
+const boxWidth = 100;
+
 const FloatingButton = ({...props}) => {
+  const scale = useRef(new Animated.Value(1)).current;
+  const [scaled, setScaled] = useState(false);
+
+  const animate = () => {
+    Animated.spring(scale, {
+      toValue: scaled ? 1 : 2,
+      useNativeDriver: true,
+    }).start();
+    setScaled(!scaled);
+  };
+
   const btnStyle = {
     width: 70,
     height: 70,

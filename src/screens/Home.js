@@ -53,7 +53,6 @@ const Home = ({navigation}) => {
 
   // Delete Contact
   const deleteContact = () => {
-    console.log(`${Url.api}contact/${idConfirm}`);
     axios
       .delete(`${Url.api}contact/${idConfirm}`)
       .then(res => {
@@ -61,7 +60,7 @@ const Home = ({navigation}) => {
         loadData();
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.message);
       });
   };
   return (

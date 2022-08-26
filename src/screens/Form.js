@@ -42,7 +42,6 @@ const Form = ({route, navigation}) => {
 
   // Values
   let values = {
-    id: form.id,
     firstName: form.firstName,
     lastName: form.lastName,
     age: Number(form.age),
@@ -80,12 +79,9 @@ const Form = ({route, navigation}) => {
 
   // Add Contact
   const addContact = () => {
-    let value = values;
-    delete value.id;
     axios
-      .post(`${Url.api}contact`, value)
+      .post(`${Url.api}contact`, values)
       .then(res => {
-        console.log('saved');
         setLoading(false);
         navigation.goBack();
       })
@@ -103,7 +99,7 @@ const Form = ({route, navigation}) => {
         navigation.goBack();
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.message);
       });
   };
 

@@ -136,7 +136,7 @@ const List = ({
           horizontalOnly={true}
           snapPoints={[{x: 0}, {x: -165}]}
           boundaries={{right: 0}}
-          onSnap={() => onSnap(1)}
+          // onSnap={() => onSnap(1)}
           animatedValueX={deltaX}
           animatedValueY={deltaY}>
           <Ripple
