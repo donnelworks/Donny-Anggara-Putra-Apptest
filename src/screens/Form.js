@@ -42,11 +42,11 @@ const Form = ({route, navigation}) => {
 
   // Values
   let values = {
-    // id: form.id,
+    id: form.id,
     firstName: form.firstName,
     lastName: form.lastName,
-    age: form.age,
-    photo: form.photo,
+    age: Number(form.age),
+    photo: form.photo == '' ? 'N/A' : form.photo,
   };
 
   // Clear Form
@@ -80,13 +80,12 @@ const Form = ({route, navigation}) => {
 
   // Add Contact
   const addContact = () => {
-    // console.log(values);
-    // setLoading(false);
-
+    let value = values;
+    delete value.id;
     axios
-      .post(`${Url.api}contact`, values)
+      .post(`${Url.api}contact`, value)
       .then(res => {
-        console.log('oke');
+        console.log('saved');
         setLoading(false);
         navigation.goBack();
       })
@@ -103,7 +102,9 @@ const Form = ({route, navigation}) => {
         setLoading(false);
         navigation.goBack();
       })
-      .catch(err => {});
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (

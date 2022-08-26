@@ -31,7 +31,6 @@ const ModalConfirm = ({visible, onDelete, onCloseModal}) => {
                   onPress={() => onCloseModal()}
                   loading={false}
                   bgColor={Color.white}
-                  borderColor={Color.primary}
                   color={Color.primary}>
                   Cancel
                 </Button>

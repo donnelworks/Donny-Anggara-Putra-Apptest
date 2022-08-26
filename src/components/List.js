@@ -67,6 +67,10 @@ const List = ({
     color: accent ? accent : Color.dark,
   };
 
+  const onSnap = id => {
+    console.log(id);
+  };
+
   return (
     <View style={styles.listContainer}>
       <View style={{backgroundColor: Color.primary}}>
@@ -132,7 +136,7 @@ const List = ({
           horizontalOnly={true}
           snapPoints={[{x: 0}, {x: -165}]}
           boundaries={{right: 0}}
-          // onSnap={this.onDrawerSnap}
+          onSnap={() => onSnap(1)}
           animatedValueX={deltaX}
           animatedValueY={deltaY}>
           <Ripple

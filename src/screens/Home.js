@@ -53,13 +53,16 @@ const Home = ({navigation}) => {
 
   // Delete Contact
   const deleteContact = () => {
+    console.log(`${Url.api}contact/${idConfirm}`);
     axios
       .delete(`${Url.api}contact/${idConfirm}`)
       .then(res => {
         setModalVisible(false);
         loadData();
       })
-      .catch(err => {});
+      .catch(err => {
+        console.log(err);
+      });
   };
   return (
     <>
