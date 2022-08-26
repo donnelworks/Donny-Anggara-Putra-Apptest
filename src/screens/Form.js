@@ -1,6 +1,13 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Gap, Header, Input} from '../components';
+import {
+  Button,
+  Container,
+  Gap,
+  Header,
+  Input,
+  LoadingScreen,
+} from '../components';
 import {Row, Col} from 'react-native-responsive-grid-system';
 import {Color, Url} from '../utils';
 import axios from 'axios';
@@ -8,6 +15,11 @@ import axios from 'axios';
 const Form = ({route, navigation}) => {
   const {id, mode} = route.params;
   const [loading, setLoading] = useState(false);
+  const [loadingScreen, setLoadingScreen] = useState(false);
+  const [errorFirstName, setErrorFirstName] = useState('');
+  const [errorLastName, setErrorLastName] = useState('');
+  const [errorAge, setErrorAge] = useState('');
+
   const [form, setForm] = useState({
     id: id,
     firstName: '',
@@ -26,6 +38,7 @@ const Form = ({route, navigation}) => {
 
   // Get Contact
   const getContact = () => {
+    setLoadingScreen(true);
     axios
       .get(`${Url.api}contact/${id}`)
       .then(res => {
@@ -36,6 +49,7 @@ const Form = ({route, navigation}) => {
           age: String(res.data.data.age),
           photo: res.data.data.photo,
         });
+        setLoadingScreen(false);
       })
       .catch(err => {});
   };
@@ -57,6 +71,9 @@ const Form = ({route, navigation}) => {
       age: '',
       photo: '',
     });
+    setErrorFirstName('');
+    setErrorLastName('');
+    setErrorAge('');
   };
 
   // Change Text
@@ -69,11 +86,73 @@ const Form = ({route, navigation}) => {
 
   // Submit Contact
   const submit = () => {
-    setLoading(true);
-    if (mode === 'Add') {
-      addContact();
+    setErrorFirstName('');
+    setErrorLastName('');
+    setErrorAge('');
+    if (
+      form.firstName == '' ||
+      form.lastName == '' ||
+      form.age == '' ||
+      form.firstName.length < 3 ||
+      form.lastName.length < 3 ||
+      form.age == 0 ||
+      form.firstName.length > 30 ||
+      form.lastName.length > 30 ||
+      form.age > 200
+    ) {
+      if (form.firstName === '') {
+        setErrorFirstName('First Name is required');
+      } else if (form.firstName.length < 3 || form.firstName.length > 30) {
+        if (form.firstName.length < 3) {
+          setErrorFirstName(
+            'First Name length must be at least 3 characters long',
+          );
+        }
+        if (form.firstName.length > 30) {
+          setErrorFirstName(
+            'First Name length must be less than or equal to 30 characters long',
+          );
+        }
+      } else {
+        setErrorFirstName('');
+      }
+
+      if (form.lastName === '') {
+        setErrorLastName('Last Name is required');
+      } else if (form.lastName.length < 3 || form.lastName.length > 30) {
+        if (form.lastName.length < 3) {
+          setErrorLastName(
+            'Last Name length must be at least 3 characters long',
+          );
+        }
+        if (form.lastName.length > 30) {
+          setErrorLastName(
+            'Last Name length must be less than or equal to 30 characters long',
+          );
+        }
+      } else {
+        setErrorLastName('');
+      }
+
+      if (form.age === '') {
+        setErrorAge('Age is required');
+      } else if (form.age == 0 || form.age > 200) {
+        if (form.age == 0) {
+          setErrorAge('Age must be less than or equal to 200');
+        }
+        if (form.age > 200) {
+          setErrorAge('Age must be less than or equal to 200');
+        }
+      } else {
+        setErrorAge('');
+      }
     } else {
-      updateContact();
+      setLoading(true);
+      if (mode === 'Add') {
+        addContact();
+      } else {
+        updateContact();
+      }
     }
   };
 
@@ -105,7 +184,7 @@ const Form = ({route, navigation}) => {
 
   return (
     <Container>
-      <Header title={`${mode} a contact`} />
+      <Header title={`${mode} a contact`} onPress={() => navigation.goBack()} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
@@ -116,17 +195,20 @@ const Form = ({route, navigation}) => {
               value={form.firstName}
               onChangeText={val => changeText(val, 'firstName')}
             />
+            <Text style={styles.textError}>{errorFirstName}</Text>
             <Input
               label="Last Name"
               value={form.lastName}
               onChangeText={val => changeText(val, 'lastName')}
             />
+            <Text style={styles.textError}>{errorLastName}</Text>
             <Input
               label="Age"
               keyboardType="numeric"
               value={form.age}
               onChangeText={val => changeText(val, 'age')}
             />
+            <Text style={styles.textError}>{errorAge}</Text>
             <Input
               label="Photo (URL)"
               value={form.photo}
@@ -146,6 +228,8 @@ const Form = ({route, navigation}) => {
           </Col>
         </Row>
       </ScrollView>
+
+      {loadingScreen && <LoadingScreen />}
     </Container>
   );
 };
@@ -155,5 +239,10 @@ export default Form;
 const styles = StyleSheet.create({
   formContainer: {
     paddingHorizontal: 20,
+  },
+  textError: {
+    fontSize: 12,
+    fontFamily: 'Poppins-Medium',
+    color: Color.error,
   },
 });

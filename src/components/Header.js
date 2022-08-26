@@ -1,12 +1,20 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Row, Col} from 'react-native-responsive-grid-system';
 import {Color} from '../utils';
+import {Back} from '../assets/imgs';
 
-const Header = ({title}) => {
+const Header = ({title, isHome = false, ...props}) => {
   return (
     <Row rowStyles={styles.headerRow}>
-      <Col xs={12} colStyles={styles.headerCol}>
+      {!isHome && (
+        <Col xs={2} colStyles={styles.headerCol}>
+          <TouchableOpacity {...props}>
+            <Back />
+          </TouchableOpacity>
+        </Col>
+      )}
+      <Col xs={isHome ? 12 : 10} colStyles={styles.headerCol}>
         <Text style={styles.textTitle}>{title}</Text>
       </Col>
     </Row>

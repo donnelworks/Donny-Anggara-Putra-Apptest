@@ -1,30 +1,32 @@
 import {Animated, StyleSheet, Text, View} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Ripple from 'react-native-material-ripple';
 import {Color} from '../utils';
 import {Add} from '../assets/imgs';
 
-const boxWidth = 100;
+const FloatingButton = ({onScale, ...props}) => {
+  const scale = useRef(new Animated.Value(onScale)).current;
+  const buttonSize = 60;
 
-const FloatingButton = ({...props}) => {
-  const scale = useRef(new Animated.Value(1)).current;
-  const [scaled, setScaled] = useState(false);
+  useEffect(() => {
+    animate();
+  }, [onScale]);
 
   const animate = () => {
     Animated.spring(scale, {
-      toValue: scaled ? 1 : 2,
+      toValue: onScale,
       useNativeDriver: true,
+      speed: 20,
     }).start();
-    setScaled(!scaled);
   };
 
   const btnStyle = {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+    width: buttonSize,
+    height: buttonSize,
+    borderRadius: 30,
     backgroundColor: Color.primary,
     position: 'absolute',
-    bottom: 50,
+    bottom: 20,
     right: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -32,14 +34,15 @@ const FloatingButton = ({...props}) => {
   };
 
   return (
-    <Ripple
-      rippleDuration={600}
-      rippleColor={Color.softPrimary}
-      rippleContainerBorderRadius={35}
-      style={btnStyle}
-      {...props}>
-      <Add />
-    </Ripple>
+    <Animated.View style={[btnStyle, {transform: [{scale}]}]}>
+      <Ripple
+        rippleDuration={600}
+        rippleColor={Color.softPrimary}
+        rippleContainerBorderRadius={35}
+        {...props}>
+        <Add width={25} />
+      </Ripple>
+    </Animated.View>
   );
 };
 

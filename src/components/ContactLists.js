@@ -3,8 +3,9 @@ import React from 'react';
 import List from './List';
 import {Color} from '../utils';
 import {Row, Col} from 'react-native-responsive-grid-system';
+import Container from './Container';
 
-const ContactLists = ({data, onDelete, onEdit}) => {
+const ContactLists = ({data, onDelete, onEdit, onScroll}) => {
   const list = ({item}) => (
     <List
       swipeable
@@ -19,20 +20,24 @@ const ContactLists = ({data, onDelete, onEdit}) => {
     />
   );
   return (
-    <Row>
-      <Col xs={12}>
-        {data.length != 0 ? (
-          <FlatList
-            contentContainerStyle={{paddingBottom: 50}}
-            data={data}
-            renderItem={list}
-            keyExtractor={item => item.id}
-          />
-        ) : (
-          <Text style={styles.textEmpty}>Data not available</Text>
-        )}
-      </Col>
-    </Row>
+    <Container>
+      <Row>
+        <Col xs={12}>
+          {data.length != 0 ? (
+            <FlatList
+              contentContainerStyle={{paddingBottom: 50}}
+              data={data}
+              renderItem={list}
+              keyExtractor={item => item.id}
+              onScrollBeginDrag={() => onScroll('start')}
+              onScrollEndDrag={() => onScroll('end')}
+            />
+          ) : (
+            <Text style={styles.textEmpty}>Data not available</Text>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

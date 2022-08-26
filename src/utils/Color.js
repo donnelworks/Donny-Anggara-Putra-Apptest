@@ -5,6 +5,7 @@ const Color = {
   softDark: '#A6A6A6',
   gray: '#DBDBDB',
   softGray: '#F6F6F6',
+  error: '#E2585C',
   white: '#FFFFFF',
   black: '#000000',
 };

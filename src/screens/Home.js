@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   ContactLists,
@@ -18,6 +18,7 @@ const Home = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [idConfirm, setIdConfirm] = useState('');
+  const [scaleButton, setScaleButton] = useState(1);
 
   // Init
   useEffect(() => {
@@ -63,27 +64,35 @@ const Home = ({navigation}) => {
         console.log(err.message);
       });
   };
+
+  // Scroll List
+  const onScrollHandle = scroll => {
+    if (scroll == 'start') {
+      setScaleButton(0);
+    } else {
+      setScaleButton(1);
+    }
+  };
   return (
-    <>
+    <Container>
+      <Header title="Contacts" isHome />
       {loadingScreen ? (
-        <LoadingScreen />
+        <ActivityIndicator size="large" color={Color.primary} />
       ) : (
-        <Container>
-          <Header title="Contacts" />
-          <ContactLists
-            data={contacts}
-            onEdit={id => editContact(id)}
-            onDelete={id => confirmDelete(id)}
-          />
-          <FloatingButton onPress={() => addContact()} />
-          <ModalConfirm
-            visible={modalVisible}
-            onCloseModal={() => setModalVisible(false)}
-            onDelete={() => deleteContact()}
-          />
-        </Container>
+        <ContactLists
+          data={contacts}
+          onEdit={id => editContact(id)}
+          onDelete={id => confirmDelete(id)}
+          onScroll={scroll => onScrollHandle(scroll)}
+        />
       )}
-    </>
+      <FloatingButton onPress={() => addContact()} onScale={scaleButton} />
+      <ModalConfirm
+        visible={modalVisible}
+        onCloseModal={() => setModalVisible(false)}
+        onDelete={() => deleteContact()}
+      />
+    </Container>
   );
 };
 
