@@ -19,6 +19,7 @@ const ModalConfirm = ({visible, onDelete, onCloseModal}) => {
             <Row>
               <Col xs={6} colStyles={{paddingRight: 5}}>
                 <Button
+                  size="sm"
                   onPress={() => onDelete()}
                   loading={false}
                   bgColor={Color.primary}
@@ -28,6 +29,7 @@ const ModalConfirm = ({visible, onDelete, onCloseModal}) => {
               </Col>
               <Col xs={6} colStyles={{paddingLeft: 5}}>
                 <Button
+                  size="sm"
                   onPress={() => onCloseModal()}
                   loading={false}
                   bgColor={Color.white}
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
   modalBody: {
     backgroundColor: Color.white,
     padding: 10,
-    marginHorizontal: 20,
+    marginHorizontal: 40,
     borderRadius: 10,
     // alignItems: 'center',
     justifyContent: 'center',

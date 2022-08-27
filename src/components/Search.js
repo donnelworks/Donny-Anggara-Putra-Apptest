@@ -1,13 +1,30 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, TextInput, Keyboard} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Row, Col} from 'react-native-responsive-grid-system';
 import {Color} from '../utils';
 
 const Search = ({onSearch}) => {
+  const [focus, setFocus] = useState(false);
+
+  const handleFocus = () => setFocus(true);
+  const handleBlur = () => setFocus(false);
+
+  useEffect(() => {
+    const hideKeyboard = Keyboard.addListener('keyboardDidHide', () => {
+      Keyboard.dismiss();
+    });
+
+    return () => {
+      hideKeyboard.remove();
+    };
+  }, []);
+
   return (
     <Row rowStyles={styles.searchContainer}>
       <Col xs={12} colStyles={styles.searchCol}>
         <TextInput
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           style={styles.searchInput}
           placeholder="Search contact"
           placeholderTextColor={Color.gray}

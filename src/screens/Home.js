@@ -1,4 +1,10 @@
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   ContactLists,
@@ -21,7 +27,7 @@ const Home = ({navigation}) => {
   // Local State
   const [modalVisible, setModalVisible] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
-  const [id, setId] = useState('');
+  const [idDelete, setIdDelete] = useState('');
   const [search, setSearch] = useState('');
 
   const filterContacts = contacts.filter(o =>
@@ -51,19 +57,20 @@ const Home = ({navigation}) => {
 
   //   Confirm Delete
   const confirmDelete = id => {
-    setId(id);
+    setIdDelete(id);
     setModalVisible(true);
   };
 
   // Delete Contact
   const deleteContact = () => {
     axios
-      .delete(`${Url.api}contact/${id}`)
+      .delete(`${Url.api}contact/` + idDelete)
       .then(res => {
         setModalVisible(false);
         loadData();
       })
       .catch(err => {
+        ToastAndroid.show('Contact Unavailable', ToastAndroid.SHORT);
         console.log(err.message);
       });
   };

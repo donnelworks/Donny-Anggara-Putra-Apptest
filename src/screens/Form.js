@@ -64,7 +64,13 @@ const Form = ({route, navigation}) => {
     firstName: form.firstName,
     lastName: form.lastName,
     age: Number(form.age),
-    photo: form.photo == '' ? 'N/A' : form.photo,
+    photo:
+      form.photo == '' ||
+      form.photo.substring(0, 5) != 'https' ||
+      form.photo.substring(0, 4) != 'http' ||
+      form.photo.substring(0, 3) != 'www'
+        ? 'N/A'
+        : form.photo,
   };
 
   // Clear Form
@@ -152,8 +158,8 @@ const Form = ({route, navigation}) => {
         setErrorAge('');
       }
     } else {
+      setLoading(true);
       if (mode === 'Add') {
-        setLoading(true);
         addContact();
       } else {
         updateContact();
