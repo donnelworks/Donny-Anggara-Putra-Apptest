@@ -11,8 +11,13 @@ import {
 import {Row, Col} from 'react-native-responsive-grid-system';
 import {Color, Url} from '../utils';
 import axios from 'axios';
+import {useDispatch} from 'react-redux';
+import {getContacts} from '../redux/contactsSlice';
 
 const Form = ({route, navigation}) => {
+  // Global State
+  const dispatch = useDispatch();
+  // Local State
   const {id, mode} = route.params;
   const [loading, setLoading] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(false);
@@ -47,7 +52,7 @@ const Form = ({route, navigation}) => {
           firstName: res.data.data.firstName,
           lastName: res.data.data.lastName,
           age: String(res.data.data.age),
-          photo: res.data.data.photo,
+          photo: res.data.data.photo == 'N/A' ? '' : res.data.data.photo,
         });
         setLoadingScreen(false);
       })
@@ -84,7 +89,7 @@ const Form = ({route, navigation}) => {
     });
   };
 
-  // Submit Contact
+  // Validate Contact
   const submit = () => {
     setErrorFirstName('');
     setErrorLastName('');
@@ -147,8 +152,8 @@ const Form = ({route, navigation}) => {
         setErrorAge('');
       }
     } else {
-      setLoading(true);
       if (mode === 'Add') {
+        setLoading(true);
         addContact();
       } else {
         updateContact();
@@ -157,15 +162,17 @@ const Form = ({route, navigation}) => {
   };
 
   // Add Contact
-  const addContact = () => {
+  const addContact = async () => {
     axios
       .post(`${Url.api}contact`, values)
-      .then(res => {
+      .then(res => res.data.data)
+      .then(data => {
+        dispatch(getContacts());
         setLoading(false);
         navigation.goBack();
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.message);
       });
   };
 
@@ -174,6 +181,7 @@ const Form = ({route, navigation}) => {
     axios
       .put(`${Url.api}contact/${id}`, values)
       .then(res => {
+        dispatch(getContacts());
         setLoading(false);
         navigation.goBack();
       })
