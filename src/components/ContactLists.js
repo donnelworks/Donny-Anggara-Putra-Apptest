@@ -4,8 +4,11 @@ import List from './List';
 import {Color} from '../utils';
 import {Row, Col} from 'react-native-responsive-grid-system';
 import Container from './Container';
+import {useDispatch} from 'react-redux';
+import {scrolling} from '../redux/scrollSlice';
 
 const ContactLists = ({data, onDelete, onEdit, onScroll}) => {
+  const dispatch = useDispatch();
   const list = ({item}) => (
     <List
       swipeable
@@ -29,8 +32,9 @@ const ContactLists = ({data, onDelete, onEdit, onScroll}) => {
               data={data}
               renderItem={list}
               keyExtractor={item => item.id}
-              onScrollBeginDrag={() => onScroll('start')}
-              onScrollEndDrag={() => onScroll('end')}
+              onScrollBeginDrag={() => dispatch(scrolling(0))}
+              onScrollEndDrag={() => dispatch(scrolling(1))}
+              keyboardShouldPersistTaps="handled"
             />
           ) : (
             <Text style={styles.textEmpty}>Data not available</Text>

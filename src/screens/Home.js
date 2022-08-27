@@ -6,6 +6,7 @@ import {
   FloatingButton,
   Header,
   ModalConfirm,
+  Search,
 } from '../components';
 import axios from 'axios';
 import {Color, Url} from '../utils';
@@ -21,7 +22,11 @@ const Home = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [id, setId] = useState('');
-  const [scaleButton, setScaleButton] = useState(1);
+  const [search, setSearch] = useState('');
+
+  const filterContacts = contacts.filter(o =>
+    o.firstName.toLowerCase().includes(search.toString().toLowerCase()),
+  );
 
   // Init
   useEffect(() => {
@@ -32,18 +37,6 @@ const Home = ({navigation}) => {
   const loadData = async () => {
     await dispatch(getContacts());
     setLoadingScreen(false);
-
-    // LOCAL GET
-    // ==========
-    // axios
-    //   .get(`${Url.api}contact`)
-    //   .then(res => {
-    //     dispatch(getContacts(res.data.data));
-    //     setLoadingScreen(false);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
   };
 
   //   Add Contact
@@ -75,28 +68,24 @@ const Home = ({navigation}) => {
       });
   };
 
-  // Scroll List
-  const onScrollHandle = scroll => {
-    if (scroll == 'start') {
-      setScaleButton(0);
-    } else {
-      setScaleButton(1);
-    }
+  // Search Contacts
+  const onSearch = key => {
+    setSearch(key);
   };
   return (
     <Container>
       <Header title="Contacts" isHome />
+      <Search onSearch={key => onSearch(key)} />
       {loadingScreen ? (
         <ActivityIndicator size="large" color={Color.primary} />
       ) : (
         <ContactLists
-          data={contacts}
+          data={filterContacts}
           onEdit={id => editContact(id)}
           onDelete={id => confirmDelete(id)}
-          onScroll={scroll => onScrollHandle(scroll)}
         />
       )}
-      <FloatingButton onPress={() => addContact()} onScale={scaleButton} />
+      <FloatingButton onPress={() => addContact()} />
       <ModalConfirm
         visible={modalVisible}
         onCloseModal={() => setModalVisible(false)}

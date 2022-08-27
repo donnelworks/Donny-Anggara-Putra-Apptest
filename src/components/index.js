@@ -9,7 +9,7 @@ import FloatingButton from './FloatingButton';
 import Gap from './Gap';
 import ModalConfirm from './ModalConfirm';
 import LoadingScreen from './LoadingScreen';
-import SwipeList from './SwipeList';
+import Search from './Search';
 
 export {
   Container,
@@ -23,5 +23,5 @@ export {
   Gap,
   ModalConfirm,
   LoadingScreen,
-  SwipeList,
+  Search,
 };

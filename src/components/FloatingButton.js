@@ -3,18 +3,21 @@ import React, {useEffect, useRef, useState} from 'react';
 import Ripple from 'react-native-material-ripple';
 import {Color} from '../utils';
 import {Add} from '../assets/imgs';
+import {useSelector} from 'react-redux';
 
-const FloatingButton = ({onScale, ...props}) => {
-  const scale = useRef(new Animated.Value(onScale)).current;
+const FloatingButton = ({...props}) => {
+  const scaled = useSelector(state => state.scroll.scroll);
+
+  const scale = useRef(new Animated.Value(scaled)).current;
   const buttonSize = 60;
 
   useEffect(() => {
     animate();
-  }, [onScale]);
+  }, [scaled]);
 
   const animate = () => {
     Animated.spring(scale, {
-      toValue: onScale,
+      toValue: scaled,
       useNativeDriver: true,
       speed: 20,
     }).start();
